@@ -134,7 +134,7 @@ Deception Floor Commodity Factory (0→1 production)
 
 ## Status
 
-🟢 **Phase 1: Operational** — Precinct fully staffed, all divisions active
+🟢 **Phase 0: Operational** — Precinct fully staffed, all divisions active
 
 - [x] Repository created
 - [x] Core documentation & philosophy
