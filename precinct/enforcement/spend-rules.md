@@ -151,6 +151,8 @@ System-wide throttling based on remaining platform credits:
 
 | Credit Level | System Response |
 |---|---|
+| **> 300%** | 🔵 Deluge warning. Budget UNCHANGED. Surplus banked. Famine drill scheduled. |
+| **150-300%** | 🟣 Deluge discipline. 40% reserve, 30% training, 20% infra, 10% explore. |
 | **> 50%** | 🟢 Normal operations. All tiers active. |
 | **20-50%** | 🟡 Caution. Tier 3 requires pre-approval. Tier 2 soft targets halved. |
 | **10-20%** | 🟠 Lean mode. Only Tier 0-1 agents active. Tier 2+ suspended. |
