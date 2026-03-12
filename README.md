@@ -134,16 +134,30 @@ Deception Floor Commodity Factory (0→1 production)
 
 ## Status
 
-🟡 **Phase 0: Bootstrap** — Precinct established, Daimyo appointed
+🟢 **Phase 1: Operational** — Precinct fully staffed, all divisions active
 
 - [x] Repository created
 - [x] Core documentation & philosophy
 - [x] Directory structure
 - [x] Ninjutsu framework mapped to modern ops
-- [ ] Spend rules engine
-- [ ] Simulation framework
-- [ ] Real-time -1 detection
-- [ ] Dashboard & reporting
+- [x] Spend rules engine (`precinct/enforcement/spend-rules.md`)
+- [x] Burn policies & ROI framework (`precinct/enforcement/burn-policies.md`)
+- [x] Resistance logging system (`precinct/enforcement/resistance-log.md`)
+- [x] Token famine simulation (`precinct/simulation/token-famine.md`)
+- [x] Cascade failure model (`precinct/simulation/cascade-failure.md`)
+- [x] Adversary threat models (`precinct/simulation/adversary-models.md`)
+- [x] Concealment techniques (`precinct/ninjutsu/concealment.md`)
+- [x] Adaptation strategies (`precinct/ninjutsu/adaptation.md`)
+- [x] Intelligence & early warning (`precinct/ninjutsu/intelligence.md`)
+- [x] Spend dashboard spec (`precinct/metrics/spend-dashboard.md`)
+- [x] Efficiency ratio framework (`precinct/metrics/efficiency-ratio.md`)
+- [x] Trend analysis methodology (`precinct/metrics/trend-analysis.md`)
+- [x] System monitor script (`scripts/monitor.sh`)
+- [x] Famine simulation script (`scripts/famine-sim.sh`)
+- [x] Dashboard landing page (`index.html`)
+- [x] GitHub Pages deployment (`.github/workflows/pages.yml`)
+- [ ] Live metrics integration (connect real spend data to dashboard)
+- [ ] Automated cron-based monitoring
 - [ ] Integration with factory metrics
 
 ---

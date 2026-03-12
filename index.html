@@ -3,32 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precinct 92 — Magical Feelings Enforcement</title>
+    <title>Precinct 92 — Magical Feelings Enforcement Dashboard</title>
     <style>
         :root {
-            --bg-primary: #08080e;
-            --bg-secondary: #0e0e18;
-            --bg-card: #14142a;
+            --bg-primary: #06060c;
+            --bg-secondary: #0c0c16;
+            --bg-card: #12122a;
+            --bg-card-hover: #181840;
             --accent: #6c5ce7;
             --accent-glow: rgba(108,92,231,0.3);
+            --accent-bright: #8b7cf7;
             --accent-red: #e94560;
+            --accent-red-glow: rgba(233,69,96,0.3);
             --accent-green: #34c759;
+            --accent-green-glow: rgba(52,199,89,0.3);
+            --accent-yellow: #ffcc00;
+            --accent-orange: #ff9500;
             --text-primary: #e0e0f0;
             --text-secondary: #8888aa;
             --text-dim: #555570;
             --border: rgba(255,255,255,0.06);
-            --kanji-color: rgba(108,92,231,0.08);
+            --border-active: rgba(108,92,231,0.3);
+            --kanji-color: rgba(108,92,231,0.06);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+            font-family: -apple-system, 'SF Pro Display', 'Inter', 'Noto Sans JP', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
         }
+
+        /* ===== UTILITY ===== */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 24px;
+            background: rgba(6,6,12,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .nav-brand .kanji { color: var(--accent); font-size: 20px; }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green-glow);
+            animation: pulse-dot 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover { color: var(--accent-bright); }
 
         /* ===== HERO ===== */
         .hero {
@@ -40,59 +114,65 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            padding-top: 60px;
         }
 
         .hero::before {
             content: '忍';
             position: absolute;
-            font-size: 40vw;
+            font-size: 50vw;
             color: var(--kanji-color);
             font-weight: 900;
             pointer-events: none;
             user-select: none;
-            animation: kanjiFade 8s ease-in-out infinite;
+            animation: kanjiFade 12s ease-in-out infinite;
         }
 
         @keyframes kanjiFade {
-            0%, 100% { opacity: 0.03; transform: scale(1); }
-            50% { opacity: 0.07; transform: scale(1.02); }
+            0%, 100% { opacity: 0.02; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0.06; transform: scale(1.03) rotate(0.5deg); }
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 16px;
-            background: rgba(108,92,231,0.1);
+            padding: 6px 18px;
+            background: rgba(108,92,231,0.08);
             border: 1px solid rgba(108,92,231,0.2);
             border-radius: 100px;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--accent);
             margin-bottom: 32px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             animation: fadeInDown 0.8s ease;
         }
 
         .hero h1 {
-            font-size: clamp(36px, 6vw, 72px);
+            font-size: clamp(40px, 7vw, 80px);
             font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -2px;
+            line-height: 1.0;
+            letter-spacing: -3px;
             margin-bottom: 8px;
             animation: fadeInUp 0.8s ease 0.1s both;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero .jp-title {
-            font-size: clamp(18px, 3vw, 32px);
+            font-size: clamp(18px, 3vw, 36px);
             color: var(--accent);
             font-weight: 300;
             margin-bottom: 24px;
-            letter-spacing: 8px;
+            letter-spacing: 12px;
             animation: fadeInUp 0.8s ease 0.15s both;
         }
 
         .hero .subtitle {
-            font-size: clamp(15px, 2vw, 20px);
+            font-size: clamp(14px, 1.8vw, 18px);
             color: var(--text-secondary);
             max-width: 600px;
             margin-bottom: 48px;
@@ -108,7 +188,7 @@
         .btn {
             padding: 14px 32px;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             border: none;
@@ -125,57 +205,189 @@
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--accent-glow); }
 
         .btn-secondary {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.04);
             color: var(--text-primary);
             border: 1px solid var(--border);
         }
 
-        .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
 
-        /* ===== NINJUTSU GRID ===== */
-        .ninjutsu-section {
-            padding: 120px 24px;
+        /* ===== DASHBOARD METRICS ===== */
+        .dashboard-section {
+            padding: 80px 0;
             background: var(--bg-secondary);
         }
 
         .section-label {
-            font-size: 13px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             color: var(--accent);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             text-align: center;
         }
 
         .section-title {
-            font-size: clamp(28px, 4vw, 48px);
+            font-size: clamp(26px, 3.5vw, 44px);
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             letter-spacing: -1px;
             text-align: center;
         }
 
         .section-subtitle {
             color: var(--text-secondary);
-            font-size: 18px;
+            font-size: 16px;
             max-width: 560px;
-            margin: 0 auto 64px;
+            margin: 0 auto 48px;
             text-align: center;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card:hover {
+            border-color: var(--border-active);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .metric-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 4px;
+        }
+
+        .metric-value.green { color: var(--accent-green); }
+        .metric-value.yellow { color: var(--accent-yellow); }
+        .metric-value.red { color: var(--accent-red); }
+        .metric-value.purple { color: var(--accent-bright); }
+
+        .metric-sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .metric-trend {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-size: 13px;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .trend-up { background: rgba(52,199,89,0.1); color: var(--accent-green); }
+        .trend-down { background: rgba(233,69,96,0.1); color: var(--accent-red); }
+        .trend-stable { background: rgba(255,255,255,0.05); color: var(--text-dim); }
+
+        /* ===== CREDIT GAUGE ===== */
+        .gauge-section {
+            padding: 80px 0;
+        }
+
+        .gauge-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .gauge-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+        }
+
+        .gauge-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+
+        .gauge-bar {
+            height: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 1.5s ease;
+        }
+
+        .gauge-fill.green { background: linear-gradient(90deg, var(--accent-green), #2ecc71); box-shadow: 0 0 20px var(--accent-green-glow); }
+        .gauge-fill.yellow { background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange)); box-shadow: 0 0 20px rgba(255,204,0,0.3); }
+        .gauge-fill.red { background: linear-gradient(90deg, var(--accent-red), #ff6b6b); box-shadow: 0 0 20px var(--accent-red-glow); }
+        .gauge-fill.purple { background: linear-gradient(90deg, var(--accent), var(--accent-bright)); box-shadow: 0 0 20px var(--accent-glow); }
+
+        .gauge-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .gauge-value {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 4px;
+        }
+
+        .gauge-unit {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* ===== NINJUTSU GRID ===== */
+        .ninjutsu-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
         }
 
         .ninjutsu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1100px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
         }
 
         .jutsu-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 32px 28px;
+            border-radius: 16px;
+            padding: 28px 24px;
             cursor: pointer;
             transition: all 0.4s ease;
             position: relative;
@@ -183,92 +395,70 @@
         }
 
         .jutsu-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(108,92,231,0.3);
+            transform: translateY(-4px);
+            border-color: var(--border-active);
             box-shadow: 0 12px 40px rgba(0,0,0,0.3);
         }
 
         .jutsu-card::after {
             content: attr(data-kanji);
             position: absolute;
-            top: -10px;
+            top: -15px;
             right: -10px;
-            font-size: 100px;
-            color: rgba(108,92,231,0.05);
+            font-size: 110px;
+            color: rgba(108,92,231,0.04);
             font-weight: 900;
             pointer-events: none;
         }
 
         .jutsu-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 22px;
+            margin-bottom: 16px;
+            background: rgba(108,92,231,0.1);
         }
 
-        .jutsu-card:nth-child(1) .jutsu-icon { background: rgba(108,92,231,0.15); }
-        .jutsu-card:nth-child(2) .jutsu-icon { background: rgba(88,166,255,0.15); }
-        .jutsu-card:nth-child(3) .jutsu-icon { background: rgba(233,69,96,0.15); }
-        .jutsu-card:nth-child(4) .jutsu-icon { background: rgba(52,199,89,0.15); }
-        .jutsu-card:nth-child(5) .jutsu-icon { background: rgba(255,149,0,0.15); }
-        .jutsu-card:nth-child(6) .jutsu-icon { background: rgba(90,200,250,0.15); }
-        .jutsu-card:nth-child(7) .jutsu-icon { background: rgba(175,82,222,0.15); }
-
-        .jutsu-name {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .jutsu-jp {
-            font-size: 13px;
-            color: var(--accent);
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-        }
-
-        .jutsu-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
+        .jutsu-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+        .jutsu-jp { font-size: 12px; color: var(--accent); margin-bottom: 10px; letter-spacing: 1px; }
+        .jutsu-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 
         .jutsu-detail {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, margin 0.4s ease;
-            font-size: 13px;
+            transition: max-height 0.4s ease, margin 0.4s ease, padding 0.4s ease;
+            font-size: 12px;
             color: var(--text-dim);
         }
 
         .jutsu-card.expanded .jutsu-detail {
             max-height: 200px;
-            margin-top: 16px;
-            padding-top: 16px;
+            margin-top: 14px;
+            padding-top: 14px;
             border-top: 1px solid var(--border);
         }
 
         /* ===== FIVE RINGS ===== */
         .rings-section {
-            padding: 120px 24px;
+            padding: 80px 0;
         }
 
         .rings-container {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 20px;
             max-width: 900px;
             margin: 0 auto;
             flex-wrap: wrap;
         }
 
         .ring {
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             display: flex;
             flex-direction: column;
@@ -279,7 +469,7 @@
             position: relative;
         }
 
-        .ring:hover { transform: scale(1.1); }
+        .ring:hover { transform: scale(1.12); }
 
         .ring:nth-child(1) { background: linear-gradient(135deg, #5a3e2b, #3a2618); box-shadow: 0 0 30px rgba(90,62,43,0.3); }
         .ring:nth-child(2) { background: linear-gradient(135deg, #1a5276, #0e3a5a); box-shadow: 0 0 30px rgba(26,82,118,0.3); }
@@ -287,27 +477,17 @@
         .ring:nth-child(4) { background: linear-gradient(135deg, #1e8449, #145a32); box-shadow: 0 0 30px rgba(30,132,73,0.3); }
         .ring:nth-child(5) { background: linear-gradient(135deg, #6c5ce7, #4a3db5); box-shadow: 0 0 30px var(--accent-glow); }
 
-        .ring-kanji {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .ring-name {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.8;
-        }
+        .ring-kanji { font-size: 36px; font-weight: 800; margin-bottom: 4px; }
+        .ring-name { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; }
 
         .ring-tooltip {
             position: absolute;
             bottom: -60px;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 12px;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 11px;
             color: var(--text-secondary);
             width: 200px;
             text-align: center;
@@ -321,7 +501,7 @@
 
         /* ===== ALERT LEVELS ===== */
         .alerts-section {
-            padding: 120px 24px;
+            padding: 80px 0;
             background: var(--bg-secondary);
         }
 
@@ -334,78 +514,126 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            padding: 20px 24px;
-            border-radius: 16px;
-            margin-bottom: 12px;
-            cursor: pointer;
+            padding: 18px 24px;
+            border-radius: 14px;
+            margin-bottom: 10px;
             transition: all 0.3s ease;
             border: 1px solid transparent;
         }
 
         .alert-bar:hover { transform: translateX(8px); }
+        .alert-bar.green { background: rgba(52,199,89,0.04); border-color: rgba(52,199,89,0.12); }
+        .alert-bar.yellow { background: rgba(255,204,0,0.04); border-color: rgba(255,204,0,0.12); }
+        .alert-bar.orange { background: rgba(255,149,0,0.04); border-color: rgba(255,149,0,0.12); }
+        .alert-bar.red { background: rgba(255,59,48,0.04); border-color: rgba(255,59,48,0.12); }
+        .alert-bar.black { background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.06); }
+        .alert-bar.active { box-shadow: inset 0 0 0 1px rgba(52,199,89,0.3); }
 
-        .alert-bar.green { background: rgba(52,199,89,0.06); border-color: rgba(52,199,89,0.15); }
-        .alert-bar.yellow { background: rgba(255,204,0,0.06); border-color: rgba(255,204,0,0.15); }
-        .alert-bar.orange { background: rgba(255,149,0,0.06); border-color: rgba(255,149,0,0.15); }
-        .alert-bar.red { background: rgba(255,59,48,0.06); border-color: rgba(255,59,48,0.15); }
-        .alert-bar.black { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); }
+        .alert-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+        .green .alert-dot { background: var(--accent-green); box-shadow: 0 0 10px var(--accent-green-glow); }
+        .yellow .alert-dot { background: var(--accent-yellow); box-shadow: 0 0 10px rgba(255,204,0,0.4); }
+        .orange .alert-dot { background: var(--accent-orange); box-shadow: 0 0 10px rgba(255,149,0,0.4); }
+        .red .alert-dot { background: #ff3b30; box-shadow: 0 0 10px rgba(255,59,48,0.4); animation: pulse 2s infinite; }
+        .black .alert-dot { background: #333; box-shadow: 0 0 10px rgba(0,0,0,0.4); }
 
-        .alert-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            flex-shrink: 0;
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .alert-info { flex: 1; }
+        .alert-level { font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+        .alert-condition { font-size: 12px; color: var(--text-secondary); }
+        .alert-action { font-size: 11px; color: var(--text-dim); text-align: right; min-width: 120px; }
+
+        /* ===== SPEND TIMELINE ===== */
+        .timeline-section {
+            padding: 80px 0;
         }
 
-        .green .alert-dot { background: #34c759; box-shadow: 0 0 12px rgba(52,199,89,0.5); }
-        .yellow .alert-dot { background: #ffcc00; box-shadow: 0 0 12px rgba(255,204,0,0.5); }
-        .orange .alert-dot { background: #ff9500; box-shadow: 0 0 12px rgba(255,149,0,0.5); }
-        .red .alert-dot { background: #ff3b30; box-shadow: 0 0 12px rgba(255,59,48,0.5); animation: pulse 2s infinite; }
-        .black .alert-dot { background: #333; box-shadow: 0 0 12px rgba(0,0,0,0.5); }
-
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-        .alert-info {
-            flex: 1;
+        .timeline-chart {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
         }
 
-        .alert-level {
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 2px;
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
         }
 
-        .alert-condition {
-            font-size: 13px;
+        .chart-title { font-size: 16px; font-weight: 600; }
+
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
             color: var(--text-secondary);
         }
 
-        .alert-action {
-            font-size: 12px;
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 120px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .chart-bar {
+            flex: 1;
+            border-radius: 3px 3px 0 0;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            position: relative;
+            min-height: 4px;
+        }
+
+        .chart-bar:hover { opacity: 0.8; }
+        .chart-bar.low { background: var(--accent-green); }
+        .chart-bar.med { background: var(--accent); }
+        .chart-bar.high { background: var(--accent-orange); }
+        .chart-bar.crit { background: var(--accent-red); }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 8px;
+            font-size: 11px;
             color: var(--text-dim);
-            text-align: right;
-            min-width: 140px;
         }
 
         /* ===== RESISTANCE LOG ===== */
         .resistance-section {
-            padding: 120px 24px;
+            padding: 80px 0;
+            background: var(--bg-secondary);
         }
 
         .log-table {
             max-width: 900px;
             margin: 0 auto;
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
         }
 
         .log-header {
             display: grid;
-            grid-template-columns: 80px 100px 1fr 100px;
-            padding: 16px 24px;
+            grid-template-columns: 70px 90px 1fr 100px;
+            padding: 14px 24px;
             background: var(--bg-card);
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-dim);
@@ -414,19 +642,87 @@
 
         .log-row {
             display: grid;
-            grid-template-columns: 80px 100px 1fr 100px;
-            padding: 16px 24px;
-            font-size: 14px;
+            grid-template-columns: 70px 90px 1fr 100px;
+            padding: 14px 24px;
+            font-size: 13px;
             border-bottom: 1px solid var(--border);
             transition: background 0.2s ease;
             cursor: pointer;
         }
 
-        .log-row:hover { background: rgba(108,92,231,0.04); }
+        .log-row:hover { background: rgba(108,92,231,0.03); }
         .log-row:last-child { border-bottom: none; }
-
         .status-resolved { color: var(--accent-green); }
-        .status-open { color: #ffcc00; }
+        .status-open { color: var(--accent-yellow); }
+
+        /* ===== OPERATIONS STRUCTURE ===== */
+        .structure-section {
+            padding: 80px 0;
+        }
+
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .structure-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .structure-card:hover {
+            border-color: var(--border-active);
+            transform: translateY(-2px);
+        }
+
+        .structure-icon { font-size: 28px; margin-bottom: 12px; }
+        .structure-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .structure-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5; }
+        .structure-count { font-size: 24px; font-weight: 800; color: var(--accent-bright); }
+        .structure-label { font-size: 11px; color: var(--text-dim); }
+
+        /* ===== ORDERS ===== */
+        .orders-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .order-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .order-card:hover { border-color: var(--border-active); }
+
+        .order-number {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 48px;
+            font-weight: 900;
+            color: rgba(108,92,231,0.08);
+        }
+
+        .order-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+        .order-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 
         /* ===== FOOTER ===== */
         footer {
@@ -434,228 +730,442 @@
             text-align: center;
             border-top: 1px solid var(--border);
             color: var(--text-dim);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         footer a { color: var(--accent); text-decoration: none; }
 
         .footer-kanji {
-            font-size: 24px;
+            font-size: 22px;
             margin-bottom: 8px;
             color: var(--accent);
-            letter-spacing: 8px;
+            letter-spacing: 10px;
         }
 
         /* ===== ANIMATIONS ===== */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes countUp { from { opacity: 0; } to { opacity: 1; } }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .structure-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         @media (max-width: 768px) {
+            .navbar { padding: 12px 16px; }
+            .nav-links { display: none; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .gauge-container { grid-template-columns: 1fr; }
             .rings-container { gap: 12px; }
-            .ring { width: 100px; height: 100px; }
+            .ring { width: 90px; height: 90px; }
             .ring-kanji { font-size: 24px; }
-            .log-header, .log-row { grid-template-columns: 60px 80px 1fr 80px; font-size: 12px; padding: 12px 16px; }
+            .structure-grid { grid-template-columns: 1fr 1fr; }
+            .log-header, .log-row { grid-template-columns: 50px 70px 1fr 70px; font-size: 11px; padding: 10px 14px; }
+        }
+
+        @media (max-width: 480px) {
+            .structure-grid { grid-template-columns: 1fr; }
+            .orders-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="kanji">忍</span>
+            <span>Precinct 92</span>
+        </div>
+        <div class="nav-status">
+            <div class="status-dot"></div>
+            <span id="current-time">Loading...</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#ninjutsu">Techniques</a></li>
+            <li><a href="#rings">Five Rings</a></li>
+            <li><a href="#alerts">Alerts</a></li>
+            <li><a href="https://github.com/ironiclawdoctor-design/precinct92-magical-feelings-enforcement" target="_blank">Source ↗</a></li>
+        </ul>
+    </nav>
+
     <!-- HERO -->
     <section class="hero">
-        <span class="hero-badge">🏯 Enforcement Active</span>
+        <span class="hero-badge">🏯 Enforcement Active — Phase 1</span>
         <h1>Precinct 92</h1>
         <div class="jp-title">魔法感情執行部</div>
-        <p class="subtitle">Where all -1 negative spend and token burn is simulated for rules and enforcement. Ninjutsu principles adapted for modern agent operations.</p>
+        <p class="subtitle">Magical Feelings Enforcement Division — where all -1 negative spend and token burn is simulated, tracked, and governed through ninjutsu principles.</p>
         <div class="hero-cta">
-            <a href="#ninjutsu" class="btn btn-primary">Explore Techniques</a>
+            <a href="#dashboard" class="btn btn-primary">View Dashboard</a>
             <a href="https://github.com/ironiclawdoctor-design/precinct92-magical-feelings-enforcement" class="btn btn-secondary" target="_blank">View Source</a>
+        </div>
+    </section>
+
+    <!-- DASHBOARD METRICS -->
+    <section class="dashboard-section reveal" id="dashboard">
+        <div class="container">
+            <div class="section-label">Real-Time Metrics</div>
+            <h2 class="section-title">Spend Dashboard</h2>
+            <p class="section-subtitle">The Daimyo's ground truth. Every number has an enforcement action behind it.</p>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Credit Level</div>
+                    <div class="metric-value green" id="metric-credits">52%</div>
+                    <div class="metric-sub">~62 hours to famine</div>
+                    <div class="metric-trend trend-down">↓ 3%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Burn Rate</div>
+                    <div class="metric-value purple" id="metric-burn">75<span style="font-size:18px;color:var(--text-secondary)">/hr</span></div>
+                    <div class="metric-sub">24h avg: 82 tok/hr</div>
+                    <div class="metric-trend trend-up">↓ 8%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Efficiency Ratio</div>
+                    <div class="metric-value green" id="metric-efficiency">3.2:1</div>
+                    <div class="metric-sub">Target: 3.0:1 ✅</div>
+                    <div class="metric-trend trend-up">↑ 14%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Waste Factor</div>
+                    <div class="metric-value" style="color:var(--accent-yellow)" id="metric-waste">4.2%</div>
+                    <div class="metric-sub">Target: &lt;5% ✅</div>
+                    <div class="metric-trend trend-stable">→ stable</div>
+                </div>
+            </div>
+
+            <!-- Gauge cards -->
+            <div class="gauge-container">
+                <div class="gauge-card">
+                    <div class="gauge-title">Credit Reserve</div>
+                    <div class="gauge-value green">52<span class="gauge-unit">%</span></div>
+                    <div class="gauge-bar">
+                        <div class="gauge-fill green" style="width: 52%"></div>
+                    </div>
+                    <div class="gauge-labels">
+                        <span>⚫ 0%</span>
+                        <span>🔴 10%</span>
+                        <span>🟠 20%</span>
+                        <span>🟡 50%</span>
+                        <span>🟢 100%</span>
+                    </div>
+                </div>
+                <div class="gauge-card">
+                    <div class="gauge-title">Stealth Score</div>
+                    <div class="gauge-value purple">78<span class="gauge-unit">%</span></div>
+                    <div class="gauge-bar">
+                        <div class="gauge-fill purple" style="width: 78%"></div>
+                    </div>
+                    <div class="gauge-labels">
+                        <span>Visible</span>
+                        <span>Concealed</span>
+                        <span>Shadow</span>
+                        <span>Void</span>
+                        <span>空 100%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPEND TIMELINE -->
+    <section class="timeline-section reveal">
+        <div class="container">
+            <div class="section-label">Temporal Analysis</div>
+            <h2 class="section-title">Spend Timeline</h2>
+            <p class="section-subtitle">Token consumption over the last 24 hours</p>
+
+            <div class="timeline-chart">
+                <div class="chart-header">
+                    <div class="chart-title">Tokens / Hour</div>
+                    <div class="chart-legend">
+                        <span><span class="legend-dot" style="background:var(--accent-green)"></span> Low</span>
+                        <span><span class="legend-dot" style="background:var(--accent)"></span> Normal</span>
+                        <span><span class="legend-dot" style="background:var(--accent-orange)"></span> High</span>
+                        <span><span class="legend-dot" style="background:var(--accent-red)"></span> Spike</span>
+                    </div>
+                </div>
+                <div class="chart-bars" id="timeline-bars">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="chart-labels">
+                    <span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span><span>now</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- NINJUTSU TECHNIQUES -->
     <section class="ninjutsu-section reveal" id="ninjutsu">
-        <div class="section-label">Techniques</div>
-        <h2 class="section-title">忍術 — The Art of Stealth Efficiency</h2>
-        <p class="section-subtitle">Classical ninjutsu reframed for agent-driven systems. Click each technique to expand.</p>
+        <div class="container">
+            <div class="section-label">Techniques</div>
+            <h2 class="section-title">忍術 — The Art of Stealth Efficiency</h2>
+            <p class="section-subtitle">Classical ninjutsu reframed for agent-driven systems. Click to expand.</p>
 
-        <div class="ninjutsu-grid">
-            <div class="jutsu-card" data-kanji="隠" onclick="this.classList.toggle('expanded')">
-                <div class="jutsu-icon">👁️‍🗨️</div>
-                <div class="jutsu-name">Concealment</div>
-                <div class="jutsu-jp">隠形術 — Ongyo-jutsu</div>
-                <div class="jutsu-desc">Minimize agent footprint. Fewer tokens per operation. Maximum output, invisible process.</div>
-                <div class="jutsu-detail">Token compression, cache-as-camouflage, batch operations (群影), lightweight observers (間者). Every unnecessary token is a -1 on your stealth score.</div>
-            </div>
-
-            <div class="jutsu-card" data-kanji="変" onclick="this.classList.toggle('expanded')">
-                <div class="jutsu-icon">🎭</div>
-                <div class="jutsu-name">Adaptation</div>
-                <div class="jutsu-jp">変装術 — Hensō-jutsu</div>
-                <div class="jutsu-desc">One agent, many faces. Reduce headcount without reducing capability.</div>
-                <div class="jutsu-detail">Role-shifting (変化), context-aware degradation (遁術), foreign system blending (潜入), model stepping (影踏み). The modern ninja wears what everyone else wears.</div>
-            </div>
-
-            <div class="jutsu-card" data-kanji="諜" onclick="this.classList.toggle('expanded')">
-                <div class="jutsu-icon">🔍</div>
-                <div class="jutsu-name">Intelligence</div>
-                <div class="jutsu-jp">諜報術 — Chōhō-jutsu</div>
-                <div class="jutsu-desc">Know where -1 is happening before it becomes a hemorrhage. Detection is cheaper than repair.</div>
-                <div class="jutsu-detail">Token spend patterns, failure cascade mapping, foreign resistance signals, credit level intelligence. Information is the cheapest weapon (情報は最も安い武器).</div>
-            </div>
-
-            <div class="jutsu-card" data-kanji="遁" onclick="this.classList.toggle('expanded')">
-                <div class="jutsu-icon">💨</div>
-                <div class="jutsu-name">Escape Arts</div>
-                <div class="jutsu-jp">遁術 — Ton-jutsu</div>
-                <div class="jutsu-desc">Graceful degradation. When resources run low, escape expensive operations without losing state.</div>
-                <div class="jutsu-detail">Commit early, checkpoint state, reduce scope mid-operation, transfer work to lower-cost agents. Never lose progress to a resource gate.</div>
-            </div>
-
-            <div class="jutsu-card" data-kanji="火" onclick="this.classList.toggle('expanded')">
-                <div class="jutsu-icon">🔥</div>
-                <div class="jutsu-name">Fire Techniques</div>
-                <div class="jutsu-jp">火術 — Ka-jutsu</div>
-                <div class="jutsu-desc">Controlled burns. Strategic token investment with measurable ROI.</div>
-                <div class="jutsu-detail">Not all -1 is bad. New skill creation, repo bootstrapping, agent training — these are investments. But every burn must be pre-approved, measured, and logged.</div>
-            </div>
-
-            <div class="jutsu-card" data-kanji="水" onclick="this.classList.toggle('expanded')">
-                <div class="jutsu-icon">🌊</div>
-                <div class="jutsu-name">Water Techniques</div>
-                <div class="jutsu-jp">水術 — Sui-jutsu</div>
-                <div class="jutsu-desc">Flow around obstacles. When Path A is blocked, find the Path B route like water finds the lowest point.</div>
-                <div class="jutsu-detail">API rate limited? Use a different endpoint. Service down? Cache the request. Auth wall? Find the cheapest authentication method. Water never fights the rock.</div>
-            </div>
-
-            <div class="jutsu-card" data-kanji="間" onclick="this.classList.toggle('expanded')">
-                <div class="jutsu-icon">🥷</div>
-                <div class="jutsu-name">Shadow Agents</div>
-                <div class="jutsu-jp">間者 — Kanja</div>
-                <div class="jutsu-desc">Lightweight observer agents that cost almost nothing but detect -1 events before they compound.</div>
-                <div class="jutsu-detail">Bash scripts, not AI agents. Cron monitors, not heartbeat polls. Zero-token surveillance. The cheapest agent is the one that doesn't consume any tokens at all.</div>
+            <div class="ninjutsu-grid">
+                <div class="jutsu-card" data-kanji="隠" onclick="this.classList.toggle('expanded')">
+                    <div class="jutsu-icon">👁️‍🗨️</div>
+                    <div class="jutsu-name">Concealment</div>
+                    <div class="jutsu-jp">隠形術 — Ongyo-jutsu</div>
+                    <div class="jutsu-desc">Minimize agent footprint. Fewer tokens per operation. Invisible efficiency.</div>
+                    <div class="jutsu-detail">Caching, batching (群影), lazy evaluation (眠刀), model stepping (影踏み), prompt compression (囁き). Every unnecessary token is a footprint the enemy can follow.</div>
+                </div>
+                <div class="jutsu-card" data-kanji="変" onclick="this.classList.toggle('expanded')">
+                    <div class="jutsu-icon">🎭</div>
+                    <div class="jutsu-name">Adaptation</div>
+                    <div class="jutsu-jp">変装術 — Hensō-jutsu</div>
+                    <div class="jutsu-desc">One agent, many faces. Reduce headcount without reducing capability.</div>
+                    <div class="jutsu-detail">Role-shifting (変化), graceful degradation (遁術), foreign system blending (潜入), model stepping (影踏み). The ninja wears what the mission requires.</div>
+                </div>
+                <div class="jutsu-card" data-kanji="諜" onclick="this.classList.toggle('expanded')">
+                    <div class="jutsu-icon">🔍</div>
+                    <div class="jutsu-name">Intelligence</div>
+                    <div class="jutsu-jp">諜報術 — Chōhō-jutsu</div>
+                    <div class="jutsu-desc">Know where -1 is happening before it hemorrhages. Detection is cheaper than repair.</div>
+                    <div class="jutsu-detail">Five intelligence networks: Kanja monitors, spend sentinels, resistance scouts, cascade watchers, trend analysts. Information is the cheapest weapon (情報は最も安い武器).</div>
+                </div>
+                <div class="jutsu-card" data-kanji="遁" onclick="this.classList.toggle('expanded')">
+                    <div class="jutsu-icon">💨</div>
+                    <div class="jutsu-name">Escape Arts</div>
+                    <div class="jutsu-jp">遁術 — Ton-jutsu</div>
+                    <div class="jutsu-desc">Graceful degradation. Escape expensive operations without losing state.</div>
+                    <div class="jutsu-detail">Checkpoint frequently, reduce scope, transfer to lower-cost agents. Four degradation levels from full operation to survival mode. Never lose progress to a resource gate.</div>
+                </div>
+                <div class="jutsu-card" data-kanji="火" onclick="this.classList.toggle('expanded')">
+                    <div class="jutsu-icon">🔥</div>
+                    <div class="jutsu-name">Fire Techniques</div>
+                    <div class="jutsu-jp">火術 — Ka-jutsu</div>
+                    <div class="jutsu-desc">Controlled burns. Strategic token investment with measurable ROI.</div>
+                    <div class="jutsu-detail">Decision tree: Is the burn controlled or waste? ROI requirements, compound value tests, the Seven Wastes (七つの無駄). Every flame must be justified by what it builds.</div>
+                </div>
+                <div class="jutsu-card" data-kanji="水" onclick="this.classList.toggle('expanded')">
+                    <div class="jutsu-icon">🌊</div>
+                    <div class="jutsu-name">Water Techniques</div>
+                    <div class="jutsu-jp">水術 — Sui-jutsu</div>
+                    <div class="jutsu-desc">Flow around obstacles. Path B over Path A when the wall appears.</div>
+                    <div class="jutsu-detail">API blocked? Find another endpoint. Service down? Use cache. Auth wall? Cheapest auth method. Exponential backoff, never retry same approach twice. Water never fights the rock.</div>
+                </div>
+                <div class="jutsu-card" data-kanji="間" onclick="this.classList.toggle('expanded')">
+                    <div class="jutsu-icon">🥷</div>
+                    <div class="jutsu-name">Shadow Agents</div>
+                    <div class="jutsu-jp">間者 — Kanja</div>
+                    <div class="jutsu-desc">Zero-token observers that detect -1 events before they compound.</div>
+                    <div class="jutsu-detail">Bash scripts, not AI. Cron monitors, not heartbeat polls. The cheapest agent consumes zero tokens — it's just a shell script watching the world and whispering alerts.</div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FIVE RINGS -->
-    <section class="rings-section reveal">
-        <div class="section-label">Framework</div>
-        <h2 class="section-title">五輪 — The Five Rings of Spend Control</h2>
-        <p class="section-subtitle">Adapted from Miyamoto Musashi's Book of Five Rings</p>
+    <section class="rings-section reveal" id="rings">
+        <div class="container">
+            <div class="section-label">Framework</div>
+            <h2 class="section-title">五輪 — The Five Rings of Spend Control</h2>
+            <p class="section-subtitle">Adapted from Miyamoto Musashi's Book of Five Rings</p>
 
-        <div class="rings-container">
-            <div class="ring">
-                <div class="ring-kanji">地</div>
-                <div class="ring-name">Earth</div>
-                <div class="ring-tooltip">Foundation. Know your baseline cost per operation. Immovable facts about your spend.</div>
+            <div class="rings-container">
+                <div class="ring">
+                    <div class="ring-kanji">地</div>
+                    <div class="ring-name">Earth</div>
+                    <div class="ring-tooltip">Foundation. Know your baseline cost per operation. Immovable facts about your economy.</div>
+                </div>
+                <div class="ring">
+                    <div class="ring-kanji">水</div>
+                    <div class="ring-name">Water</div>
+                    <div class="ring-tooltip">Fluidity. Adapt spending to flow — scale down when idle, scale up only when producing value.</div>
+                </div>
+                <div class="ring">
+                    <div class="ring-kanji">火</div>
+                    <div class="ring-name">Fire</div>
+                    <div class="ring-tooltip">Aggression. When a -1 pattern is detected, eliminate it immediately. No hesitation.</div>
+                </div>
+                <div class="ring">
+                    <div class="ring-kanji">風</div>
+                    <div class="ring-name">Wind</div>
+                    <div class="ring-tooltip">Awareness. Study how other systems handle the same problem. Foreign intelligence on efficiency.</div>
+                </div>
+                <div class="ring">
+                    <div class="ring-kanji">空</div>
+                    <div class="ring-name">Void</div>
+                    <div class="ring-tooltip">Mastery. The best cost reduction is the operation that never needed to happen. Value from nothing.</div>
+                </div>
             </div>
-            <div class="ring">
-                <div class="ring-kanji">水</div>
-                <div class="ring-name">Water</div>
-                <div class="ring-tooltip">Fluidity. Adapt spending to flow — scale down when idle, scale up only when producing value.</div>
-            </div>
-            <div class="ring">
-                <div class="ring-kanji">火</div>
-                <div class="ring-name">Fire</div>
-                <div class="ring-tooltip">Aggression. When a -1 pattern is detected, eliminate it immediately. No hesitation.</div>
-            </div>
-            <div class="ring">
-                <div class="ring-kanji">風</div>
-                <div class="ring-name">Wind</div>
-                <div class="ring-tooltip">Awareness. Study how other systems handle the same problem. Foreign intelligence on efficiency.</div>
-            </div>
-            <div class="ring">
-                <div class="ring-kanji">空</div>
-                <div class="ring-name">Void</div>
-                <div class="ring-tooltip">Mastery. The best cost reduction is the operation that never needed to happen. Pure void — value from nothing.</div>
+        </div>
+    </section>
+
+    <!-- PRECINCT OPERATIONS STRUCTURE -->
+    <section class="structure-section reveal">
+        <div class="container">
+            <div class="section-label">Operations</div>
+            <h2 class="section-title">Precinct Structure</h2>
+            <p class="section-subtitle">Four divisions. Complete -1 coverage.</p>
+
+            <div class="structure-grid">
+                <div class="structure-card">
+                    <div class="structure-icon">⚔️</div>
+                    <div class="structure-name">Enforcement</div>
+                    <div class="structure-desc">Rules, policies, and spend limits. The law of the precinct.</div>
+                    <div class="structure-count">3</div>
+                    <div class="structure-label">active policies</div>
+                </div>
+                <div class="structure-card">
+                    <div class="structure-icon">🎯</div>
+                    <div class="structure-name">Simulation</div>
+                    <div class="structure-desc">War games and adversary models. Train for famine before it arrives.</div>
+                    <div class="structure-count">3</div>
+                    <div class="structure-label">scenarios modeled</div>
+                </div>
+                <div class="structure-card">
+                    <div class="structure-icon">🥷</div>
+                    <div class="structure-name">Ninjutsu</div>
+                    <div class="structure-desc">Stealth efficiency techniques. The art of invisible operations.</div>
+                    <div class="structure-count">3</div>
+                    <div class="structure-label">technique manuals</div>
+                </div>
+                <div class="structure-card">
+                    <div class="structure-icon">📊</div>
+                    <div class="structure-name">Metrics</div>
+                    <div class="structure-desc">Tracking and measurement. What gets measured gets managed.</div>
+                    <div class="structure-count">3</div>
+                    <div class="structure-label">metric systems</div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ALERT LEVELS -->
-    <section class="alerts-section reveal">
-        <div class="section-label">Threat Assessment</div>
-        <h2 class="section-title">Alert Levels</h2>
-        <p class="section-subtitle">Real-time resource status and enforcement posture</p>
+    <section class="alerts-section reveal" id="alerts">
+        <div class="container">
+            <div class="section-label">Threat Assessment</div>
+            <h2 class="section-title">Alert Levels</h2>
+            <p class="section-subtitle">Resource status and enforcement posture</p>
 
-        <div class="alert-bars">
-            <div class="alert-bar green">
-                <div class="alert-dot"></div>
-                <div class="alert-info">
-                    <div class="alert-level">🟢 Green — Normal</div>
-                    <div class="alert-condition">Credits > 50%, no anomalies detected</div>
+            <div class="alert-bars">
+                <div class="alert-bar green active">
+                    <div class="alert-dot"></div>
+                    <div class="alert-info">
+                        <div class="alert-level">🟢 Green — Normal</div>
+                        <div class="alert-condition">Credits &gt; 50%, no anomalies</div>
+                    </div>
+                    <div class="alert-action">All systems go</div>
                 </div>
-                <div class="alert-action">All systems go</div>
-            </div>
-            <div class="alert-bar yellow">
-                <div class="alert-dot"></div>
-                <div class="alert-info">
-                    <div class="alert-level">🟡 Yellow — Caution</div>
-                    <div class="alert-condition">Credits 20-50% or unusual spend spike</div>
+                <div class="alert-bar yellow">
+                    <div class="alert-dot"></div>
+                    <div class="alert-info">
+                        <div class="alert-level">🟡 Yellow — Caution</div>
+                        <div class="alert-condition">Credits 20-50% or spend spike</div>
+                    </div>
+                    <div class="alert-action">Audit &amp; optimize</div>
                 </div>
-                <div class="alert-action">Audit & optimize</div>
-            </div>
-            <div class="alert-bar orange">
-                <div class="alert-dot"></div>
-                <div class="alert-info">
-                    <div class="alert-level">🟠 Orange — Elevated</div>
-                    <div class="alert-condition">Credits 10-20% or foreign resistance</div>
+                <div class="alert-bar orange">
+                    <div class="alert-dot"></div>
+                    <div class="alert-info">
+                        <div class="alert-level">🟠 Orange — Elevated</div>
+                        <div class="alert-condition">Credits 10-20% or resistance</div>
+                    </div>
+                    <div class="alert-action">Lean mode</div>
                 </div>
-                <div class="alert-action">Lean mode engaged</div>
-            </div>
-            <div class="alert-bar red">
-                <div class="alert-dot"></div>
-                <div class="alert-info">
-                    <div class="alert-level">🔴 Red — Critical</div>
-                    <div class="alert-condition">Credits < 10% or multiple failures</div>
+                <div class="alert-bar red">
+                    <div class="alert-dot"></div>
+                    <div class="alert-info">
+                        <div class="alert-level">🔴 Red — Critical</div>
+                        <div class="alert-condition">Credits &lt; 10% or cascade failure</div>
+                    </div>
+                    <div class="alert-action">Survival mode</div>
                 </div>
-                <div class="alert-action">Survival mode</div>
-            </div>
-            <div class="alert-bar black">
-                <div class="alert-dot"></div>
-                <div class="alert-info">
-                    <div class="alert-level">⚫ Black — Exhausted</div>
-                    <div class="alert-condition">Credits depleted. Token famine.</div>
+                <div class="alert-bar black">
+                    <div class="alert-dot"></div>
+                    <div class="alert-info">
+                        <div class="alert-level">⚫ Black — Exhausted</div>
+                        <div class="alert-condition">Credits depleted. Token famine.</div>
+                    </div>
+                    <div class="alert-action">All halt</div>
                 </div>
-                <div class="alert-action">All halt. Await resupply.</div>
             </div>
         </div>
     </section>
 
     <!-- RESISTANCE LOG -->
     <section class="resistance-section reveal">
-        <div class="section-label">Field Operations</div>
-        <h2 class="section-title">Resistance Log</h2>
-        <p class="section-subtitle">Foreign resistance events tracked by the precinct</p>
+        <div class="container">
+            <div class="section-label">Field Operations</div>
+            <h2 class="section-title">Resistance Log</h2>
+            <p class="section-subtitle">Foreign resistance events tracked by the precinct</p>
 
-        <div class="log-table">
-            <div class="log-header">
-                <span>ID</span>
-                <span>Date</span>
-                <span>Event</span>
-                <span>Status</span>
+            <div class="log-table">
+                <div class="log-header">
+                    <span>ID</span>
+                    <span>Date</span>
+                    <span>Event</span>
+                    <span>Status</span>
+                </div>
+                <div class="log-row">
+                    <span style="color:var(--accent)">R-001</span>
+                    <span>2026-03-12</span>
+                    <span>Ampere credit exhaustion (402) — sub-agent killed mid-task</span>
+                    <span class="status-resolved">✅ Resolved</span>
+                </div>
+                <div class="log-row">
+                    <span style="color:var(--accent)">R-002</span>
+                    <span>2026-03-12</span>
+                    <span>GitHub CLI authentication wall — gh commands blocked</span>
+                    <span class="status-open">🟡 Open</span>
+                </div>
+                <div class="log-row">
+                    <span style="color:var(--accent)">R-003</span>
+                    <span>2026-03-12</span>
+                    <span>Brave Search API key missing — web search unavailable</span>
+                    <span class="status-open">🟡 Open</span>
+                </div>
             </div>
-            <div class="log-row">
-                <span style="color:var(--accent)">R-001</span>
-                <span>2026-03-12</span>
-                <span>Ampere credit exhaustion (402) — sub-agent killed mid-task</span>
-                <span class="status-resolved">✅ Resolved</span>
-            </div>
-            <div class="log-row">
-                <span style="color:var(--accent)">R-002</span>
-                <span>2026-03-12</span>
-                <span>GitHub CLI authentication wall — gh commands blocked</span>
-                <span class="status-open">🟡 Open</span>
-            </div>
-            <div class="log-row">
-                <span style="color:var(--accent)">R-003</span>
-                <span>2026-03-12</span>
-                <span>Brave Search API key missing — web search unavailable</span>
-                <span class="status-open">🟡 Open</span>
+        </div>
+    </section>
+
+    <!-- STANDING ORDERS -->
+    <section class="orders-section reveal">
+        <div class="container">
+            <div class="section-label">Governance</div>
+            <h2 class="section-title">Daimyo's Standing Orders</h2>
+            <p class="section-subtitle">The immutable laws of the precinct</p>
+
+            <div class="orders-grid">
+                <div class="order-card">
+                    <div class="order-number">0</div>
+                    <div class="order-title">Zero-Index Discipline</div>
+                    <div class="order-desc">All indices start at 0. This is practice for -1 mastery. If you can't handle 0, you can't wield -1.</div>
+                </div>
+                <div class="order-card">
+                    <div class="order-number">1</div>
+                    <div class="order-title">Path B Enforcement</div>
+                    <div class="order-desc">Every -1 operation must be audited for Path A waste. Reframe, don't recompute. O(1) over O(n).</div>
+                </div>
+                <div class="order-card">
+                    <div class="order-number">2</div>
+                    <div class="order-title">Token Famine Prevention</div>
+                    <div class="order-desc">Monitor credit levels. Below 20%: alarm. Below 10%: survival mode. Only essential operations.</div>
+                </div>
+                <div class="order-card">
+                    <div class="order-number">3</div>
+                    <div class="order-title">Foreign Resistance Protocol</div>
+                    <div class="order-desc">Don't fight the wall. Flow around it. Log. Find Path B. Never retry the same failure twice.</div>
+                </div>
+                <div class="order-card">
+                    <div class="order-number">4</div>
+                    <div class="order-title">Controlled Burns</div>
+                    <div class="order-desc">Strategic spend with clear ROI is fire technique. Pre-approve, measure, log every burn.</div>
+                </div>
+                <div class="order-card">
+                    <div class="order-number">5</div>
+                    <div class="order-title">The Void Principle</div>
+                    <div class="order-desc">The best operation produces +1 without any -1. Cache aggressively. One computation, many products. 空.</div>
+                </div>
             </div>
         </div>
     </section>
@@ -664,27 +1174,88 @@
     <footer>
         <div class="footer-kanji">忍 耐 執 行</div>
         <p>Precinct 92 — Magical Feelings Enforcement</p>
-        <p style="margin-top:8px;">Commanded by <a href="https://github.com/ironiclawdoctor-design">Daimyo</a> · All -1 events under jurisdiction</p>
-        <p style="margin-top:16px;color:var(--text-dim);">忍ぶ者 — One who endures unseen</p>
+        <p style="margin-top:6px;">Commanded by <a href="https://github.com/ironiclawdoctor-design">Daimyo</a> · All -1 events under jurisdiction</p>
+        <p style="margin-top:12px;color:var(--text-dim);font-size:12px;">忍ぶ者 — One who endures unseen · Founded 2026-03-12 · Doctrine: 忍 — Endure. Conceal. Enforce.</p>
     </footer>
 
     <script>
-        // Scroll reveal
+        // ─── Live Clock ───
+        function updateClock() {
+            const now = new Date();
+            const fmt = now.toISOString().slice(0, 19).replace('T', ' ') + ' UTC';
+            document.getElementById('current-time').textContent = fmt;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // ─── Scroll Reveal ───
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, { threshold: 0.1 });
-
+        }, { threshold: 0.08 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Smooth scroll
+        // ─── Smooth Scroll ───
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', e => {
                 e.preventDefault();
-                document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
+
+        // ─── Spend Timeline Bars ───
+        const hourlyData = [
+            10, 8, 5, 6, 8, 12, 15, 35, 65, 80, 90, 85,
+            70, 55, 75, 95, 88, 82, 75, 60, 45, 30, 20, 15
+        ];
+        const maxVal = Math.max(...hourlyData);
+        const barsContainer = document.getElementById('timeline-bars');
+
+        hourlyData.forEach((val, i) => {
+            const bar = document.createElement('div');
+            bar.className = 'chart-bar';
+            const height = Math.max(4, (val / maxVal) * 100);
+            bar.style.height = height + '%';
+
+            if (val > maxVal * 0.85) bar.classList.add('crit');
+            else if (val > maxVal * 0.6) bar.classList.add('high');
+            else if (val > maxVal * 0.3) bar.classList.add('med');
+            else bar.classList.add('low');
+
+            bar.title = `Hour ${String(i).padStart(2, '0')}:00 — ${val} tokens`;
+            barsContainer.appendChild(bar);
+        });
+
+        // ─── Animated counters ───
+        function animateCounter(el, target, suffix = '') {
+            let current = 0;
+            const step = target / 30;
+            const interval = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(interval);
+                }
+                el.textContent = Math.round(current) + suffix;
+            }, 30);
+        }
+
+        // Animate metrics on scroll
+        const metricsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.structure-count');
+                    counters.forEach(c => {
+                        const val = parseInt(c.textContent);
+                        animateCounter(c, val);
+                    });
+                    metricsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.structure-grid').forEach(el => metricsObserver.observe(el));
     </script>
 
 </body>
