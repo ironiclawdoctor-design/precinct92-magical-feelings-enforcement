@@ -50,11 +50,11 @@ The Daimyo applies classical ninjutsu concepts reframed for agent-driven systems
 
 Adapted from Miyamoto Musashi's *五輪書 (Go Rin No Sho)*:
 
-1. **地 (Chi) — Earth:** Foundation. Know your baseline cost per operation. Immovable facts.
-2. **水 (Mizu) — Water:** Fluidity. Adapt spending to flow — scale down when idle, scale up when producing.
-3. **火 (Hi) — Fire:** Aggression. When a -1 pattern is detected, eliminate it immediately. No hesitation.
-4. **風 (Kaze) — Wind:** Awareness. Study how other systems handle the same problem. Foreign intelligence.
-5. **空 (Kū) — Void:** Mastery. The best cost reduction is the operation that never needed to happen.
+0. **地 (Chi) — Earth:** Foundation. Know your baseline cost per operation. Immovable facts.
+1. **水 (Mizu) — Water:** Fluidity. Adapt spending to flow — scale down when idle, scale up when producing.
+2. **火 (Hi) — Fire:** Aggression. When a -1 pattern is detected, eliminate it immediately. No hesitation.
+3. **風 (Kaze) — Wind:** Awareness. Study how other systems handle the same problem. Foreign intelligence.
+4. **空 (Kū) — Void:** Mastery. The best cost reduction is the operation that never needed to happen.
 
 ## Precinct Operations
 
@@ -91,6 +91,9 @@ precinct/
 | **Resistance Index** | external blockers encountered / resolved | → 0 |
 
 ## Daimyo's Standing Orders
+
+### Order 0: Zero-Index Discipline
+All indices, lists, enumerations, and step sequences in this organization start at 0. This is not a stylistic preference — it is practice. Daimyo owns all zero-index chore work as training for -1 mastery. If you can't handle 0, you can't wield -1.
 
 ### Order 1: Path B Enforcement
 Every -1 operation must be audited for Path A waste. If an agent is recomputing when it could reframe, that's a violation. Cite it. Fix it.

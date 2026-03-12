@@ -5,23 +5,23 @@ Know where -1 is happening before it becomes a hemorrhage. Detection is cheaper 
 
 ## Intelligence Targets
 
-### 1. Token Spend Patterns
+### 0. Token Spend Patterns
 - Track tokens per operation type
 - Identify operations with high token cost / low value ratio
 - Flag repeat offenders (operations that consistently waste)
 
-### 2. Failure Cascades
+### 1. Failure Cascades
 - When one agent fails, what downstream costs does it trigger?
 - Map dependency chains — where does a single -1 multiply?
 - Example: Official's credit death → Fiesta manual recovery → 2x the total cost
 
-### 3. Foreign Resistance Signals
+### 2. Foreign Resistance Signals
 - API rate limits approaching
 - Authentication failures
 - Timeout patterns
 - Service degradation from external providers
 
-### 4. Credit Level Intelligence
+### 3. Credit Level Intelligence
 - Current Ampere balance
 - Burn rate (credits/hour)
 - Time-to-empty projection

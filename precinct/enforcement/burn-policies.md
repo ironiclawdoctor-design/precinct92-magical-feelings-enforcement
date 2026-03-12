@@ -40,7 +40,7 @@ Not all spend is waste. Strategic burns create value. But every burn must be jus
 
 | Tier | Approver | Examples |
 |---|---|---|
-| Tier 1 (< 1k tokens) | Self-approved | File reads, memory searches |
-| Tier 2 (1k-10k tokens) | Agent discretion | Standard tasks, searches |
-| Tier 3 (10k-50k tokens) | Fiesta (main) | Sub-agent spawns, complex tasks |
-| Tier 4 (> 50k tokens) | Human approval | Multi-agent orchestration, new projects |
+| Tier 0 (< 1k tokens) | Self-approved | File reads, memory searches |
+| Tier 1 (1k-10k tokens) | Agent discretion | Standard tasks, searches |
+| Tier 2 (10k-50k tokens) | Fiesta (main) | Sub-agent spawns, complex tasks |
+| Tier 3 (> 50k tokens) | Human approval | Multi-agent orchestration, new projects |
