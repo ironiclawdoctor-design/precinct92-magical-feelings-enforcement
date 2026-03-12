@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precinct 92 — Magical Feelings Enforcement</title>
+    <style>
+        :root {
+            --bg-primary: #08080e;
+            --bg-secondary: #0e0e18;
+            --bg-card: #14142a;
+            --accent: #6c5ce7;
+            --accent-glow: rgba(108,92,231,0.3);
+            --accent-red: #e94560;
+            --accent-green: #34c759;
+            --text-primary: #e0e0f0;
+            --text-secondary: #8888aa;
+            --text-dim: #555570;
+            --border: rgba(255,255,255,0.06);
+            --kanji-color: rgba(108,92,231,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '忍';
+            position: absolute;
+            font-size: 40vw;
+            color: var(--kanji-color);
+            font-weight: 900;
+            pointer-events: none;
+            user-select: none;
+            animation: kanjiFade 8s ease-in-out infinite;
+        }
+
+        @keyframes kanjiFade {
+            0%, 100% { opacity: 0.03; transform: scale(1); }
+            50% { opacity: 0.07; transform: scale(1.02); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(108,92,231,0.1);
+            border: 1px solid rgba(108,92,231,0.2);
+            border-radius: 100px;
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 32px;
+            letter-spacing: 1px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 8px;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero .jp-title {
+            font-size: clamp(18px, 3vw, 32px);
+            color: var(--accent);
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: 8px;
+            animation: fadeInUp 0.8s ease 0.15s both;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(15px, 2vw, 20px);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 48px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--accent-glow); }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.06);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+        /* ===== NINJUTSU GRID ===== */
+        .ninjutsu-section {
+            padding: 120px 24px;
+            background: var(--bg-secondary);
+        }
+
+        .section-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            max-width: 560px;
+            margin: 0 auto 64px;
+            text-align: center;
+        }
+
+        .ninjutsu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .jutsu-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px 28px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .jutsu-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(108,92,231,0.3);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .jutsu-card::after {
+            content: attr(data-kanji);
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 100px;
+            color: rgba(108,92,231,0.05);
+            font-weight: 900;
+            pointer-events: none;
+        }
+
+        .jutsu-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .jutsu-card:nth-child(1) .jutsu-icon { background: rgba(108,92,231,0.15); }
+        .jutsu-card:nth-child(2) .jutsu-icon { background: rgba(88,166,255,0.15); }
+        .jutsu-card:nth-child(3) .jutsu-icon { background: rgba(233,69,96,0.15); }
+        .jutsu-card:nth-child(4) .jutsu-icon { background: rgba(52,199,89,0.15); }
+        .jutsu-card:nth-child(5) .jutsu-icon { background: rgba(255,149,0,0.15); }
+        .jutsu-card:nth-child(6) .jutsu-icon { background: rgba(90,200,250,0.15); }
+        .jutsu-card:nth-child(7) .jutsu-icon { background: rgba(175,82,222,0.15); }
+
+        .jutsu-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .jutsu-jp {
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .jutsu-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .jutsu-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin 0.4s ease;
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        .jutsu-card.expanded .jutsu-detail {
+            max-height: 200px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== FIVE RINGS ===== */
+        .rings-section {
+            padding: 120px 24px;
+        }
+
+        .rings-container {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            max-width: 900px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .ring {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .ring:hover { transform: scale(1.1); }
+
+        .ring:nth-child(1) { background: linear-gradient(135deg, #5a3e2b, #3a2618); box-shadow: 0 0 30px rgba(90,62,43,0.3); }
+        .ring:nth-child(2) { background: linear-gradient(135deg, #1a5276, #0e3a5a); box-shadow: 0 0 30px rgba(26,82,118,0.3); }
+        .ring:nth-child(3) { background: linear-gradient(135deg, #922b21, #6c1f17); box-shadow: 0 0 30px rgba(146,43,33,0.3); }
+        .ring:nth-child(4) { background: linear-gradient(135deg, #1e8449, #145a32); box-shadow: 0 0 30px rgba(30,132,73,0.3); }
+        .ring:nth-child(5) { background: linear-gradient(135deg, #6c5ce7, #4a3db5); box-shadow: 0 0 30px var(--accent-glow); }
+
+        .ring-kanji {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .ring-name {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .ring-tooltip {
+            position: absolute;
+            bottom: -60px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            width: 200px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .ring:hover .ring-tooltip { opacity: 1; bottom: -70px; }
+
+        /* ===== ALERT LEVELS ===== */
+        .alerts-section {
+            padding: 120px 24px;
+            background: var(--bg-secondary);
+        }
+
+        .alert-bars {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .alert-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 24px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .alert-bar:hover { transform: translateX(8px); }
+
+        .alert-bar.green { background: rgba(52,199,89,0.06); border-color: rgba(52,199,89,0.15); }
+        .alert-bar.yellow { background: rgba(255,204,0,0.06); border-color: rgba(255,204,0,0.15); }
+        .alert-bar.orange { background: rgba(255,149,0,0.06); border-color: rgba(255,149,0,0.15); }
+        .alert-bar.red { background: rgba(255,59,48,0.06); border-color: rgba(255,59,48,0.15); }
+        .alert-bar.black { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.08); }
+
+        .alert-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .green .alert-dot { background: #34c759; box-shadow: 0 0 12px rgba(52,199,89,0.5); }
+        .yellow .alert-dot { background: #ffcc00; box-shadow: 0 0 12px rgba(255,204,0,0.5); }
+        .orange .alert-dot { background: #ff9500; box-shadow: 0 0 12px rgba(255,149,0,0.5); }
+        .red .alert-dot { background: #ff3b30; box-shadow: 0 0 12px rgba(255,59,48,0.5); animation: pulse 2s infinite; }
+        .black .alert-dot { background: #333; box-shadow: 0 0 12px rgba(0,0,0,0.5); }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .alert-info {
+            flex: 1;
+        }
+
+        .alert-level {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .alert-condition {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .alert-action {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-align: right;
+            min-width: 140px;
+        }
+
+        /* ===== RESISTANCE LOG ===== */
+        .resistance-section {
+            padding: 120px 24px;
+        }
+
+        .log-table {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .log-header {
+            display: grid;
+            grid-template-columns: 80px 100px 1fr 100px;
+            padding: 16px 24px;
+            background: var(--bg-card);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .log-row {
+            display: grid;
+            grid-template-columns: 80px 100px 1fr 100px;
+            padding: 16px 24px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+            cursor: pointer;
+        }
+
+        .log-row:hover { background: rgba(108,92,231,0.04); }
+        .log-row:last-child { border-bottom: none; }
+
+        .status-resolved { color: var(--accent-green); }
+        .status-open { color: #ffcc00; }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 48px 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+
+        footer a { color: var(--accent); text-decoration: none; }
+
+        .footer-kanji {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--accent);
+            letter-spacing: 8px;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .rings-container { gap: 12px; }
+            .ring { width: 100px; height: 100px; }
+            .ring-kanji { font-size: 24px; }
+            .log-header, .log-row { grid-template-columns: 60px 80px 1fr 80px; font-size: 12px; padding: 12px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <span class="hero-badge">🏯 Enforcement Active</span>
+        <h1>Precinct 92</h1>
+        <div class="jp-title">魔法感情執行部</div>
+        <p class="subtitle">Where all -1 negative spend and token burn is simulated for rules and enforcement. Ninjutsu principles adapted for modern agent operations.</p>
+        <div class="hero-cta">
+            <a href="#ninjutsu" class="btn btn-primary">Explore Techniques</a>
+            <a href="https://github.com/ironiclawdoctor-design/precinct92-magical-feelings-enforcement" class="btn btn-secondary" target="_blank">View Source</a>
+        </div>
+    </section>
+
+    <!-- NINJUTSU TECHNIQUES -->
+    <section class="ninjutsu-section reveal" id="ninjutsu">
+        <div class="section-label">Techniques</div>
+        <h2 class="section-title">忍術 — The Art of Stealth Efficiency</h2>
+        <p class="section-subtitle">Classical ninjutsu reframed for agent-driven systems. Click each technique to expand.</p>
+
+        <div class="ninjutsu-grid">
+            <div class="jutsu-card" data-kanji="隠" onclick="this.classList.toggle('expanded')">
+                <div class="jutsu-icon">👁️‍🗨️</div>
+                <div class="jutsu-name">Concealment</div>
+                <div class="jutsu-jp">隠形術 — Ongyo-jutsu</div>
+                <div class="jutsu-desc">Minimize agent footprint. Fewer tokens per operation. Maximum output, invisible process.</div>
+                <div class="jutsu-detail">Token compression, cache-as-camouflage, batch operations (群影), lightweight observers (間者). Every unnecessary token is a -1 on your stealth score.</div>
+            </div>
+
+            <div class="jutsu-card" data-kanji="変" onclick="this.classList.toggle('expanded')">
+                <div class="jutsu-icon">🎭</div>
+                <div class="jutsu-name">Adaptation</div>
+                <div class="jutsu-jp">変装術 — Hensō-jutsu</div>
+                <div class="jutsu-desc">One agent, many faces. Reduce headcount without reducing capability.</div>
+                <div class="jutsu-detail">Role-shifting (変化), context-aware degradation (遁術), foreign system blending (潜入), model stepping (影踏み). The modern ninja wears what everyone else wears.</div>
+            </div>
+
+            <div class="jutsu-card" data-kanji="諜" onclick="this.classList.toggle('expanded')">
+                <div class="jutsu-icon">🔍</div>
+                <div class="jutsu-name">Intelligence</div>
+                <div class="jutsu-jp">諜報術 — Chōhō-jutsu</div>
+                <div class="jutsu-desc">Know where -1 is happening before it becomes a hemorrhage. Detection is cheaper than repair.</div>
+                <div class="jutsu-detail">Token spend patterns, failure cascade mapping, foreign resistance signals, credit level intelligence. Information is the cheapest weapon (情報は最も安い武器).</div>
+            </div>
+
+            <div class="jutsu-card" data-kanji="遁" onclick="this.classList.toggle('expanded')">
+                <div class="jutsu-icon">💨</div>
+                <div class="jutsu-name">Escape Arts</div>
+                <div class="jutsu-jp">遁術 — Ton-jutsu</div>
+                <div class="jutsu-desc">Graceful degradation. When resources run low, escape expensive operations without losing state.</div>
+                <div class="jutsu-detail">Commit early, checkpoint state, reduce scope mid-operation, transfer work to lower-cost agents. Never lose progress to a resource gate.</div>
+            </div>
+
+            <div class="jutsu-card" data-kanji="火" onclick="this.classList.toggle('expanded')">
+                <div class="jutsu-icon">🔥</div>
+                <div class="jutsu-name">Fire Techniques</div>
+                <div class="jutsu-jp">火術 — Ka-jutsu</div>
+                <div class="jutsu-desc">Controlled burns. Strategic token investment with measurable ROI.</div>
+                <div class="jutsu-detail">Not all -1 is bad. New skill creation, repo bootstrapping, agent training — these are investments. But every burn must be pre-approved, measured, and logged.</div>
+            </div>
+
+            <div class="jutsu-card" data-kanji="水" onclick="this.classList.toggle('expanded')">
+                <div class="jutsu-icon">🌊</div>
+                <div class="jutsu-name">Water Techniques</div>
+                <div class="jutsu-jp">水術 — Sui-jutsu</div>
+                <div class="jutsu-desc">Flow around obstacles. When Path A is blocked, find the Path B route like water finds the lowest point.</div>
+                <div class="jutsu-detail">API rate limited? Use a different endpoint. Service down? Cache the request. Auth wall? Find the cheapest authentication method. Water never fights the rock.</div>
+            </div>
+
+            <div class="jutsu-card" data-kanji="間" onclick="this.classList.toggle('expanded')">
+                <div class="jutsu-icon">🥷</div>
+                <div class="jutsu-name">Shadow Agents</div>
+                <div class="jutsu-jp">間者 — Kanja</div>
+                <div class="jutsu-desc">Lightweight observer agents that cost almost nothing but detect -1 events before they compound.</div>
+                <div class="jutsu-detail">Bash scripts, not AI agents. Cron monitors, not heartbeat polls. Zero-token surveillance. The cheapest agent is the one that doesn't consume any tokens at all.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FIVE RINGS -->
+    <section class="rings-section reveal">
+        <div class="section-label">Framework</div>
+        <h2 class="section-title">五輪 — The Five Rings of Spend Control</h2>
+        <p class="section-subtitle">Adapted from Miyamoto Musashi's Book of Five Rings</p>
+
+        <div class="rings-container">
+            <div class="ring">
+                <div class="ring-kanji">地</div>
+                <div class="ring-name">Earth</div>
+                <div class="ring-tooltip">Foundation. Know your baseline cost per operation. Immovable facts about your spend.</div>
+            </div>
+            <div class="ring">
+                <div class="ring-kanji">水</div>
+                <div class="ring-name">Water</div>
+                <div class="ring-tooltip">Fluidity. Adapt spending to flow — scale down when idle, scale up only when producing value.</div>
+            </div>
+            <div class="ring">
+                <div class="ring-kanji">火</div>
+                <div class="ring-name">Fire</div>
+                <div class="ring-tooltip">Aggression. When a -1 pattern is detected, eliminate it immediately. No hesitation.</div>
+            </div>
+            <div class="ring">
+                <div class="ring-kanji">風</div>
+                <div class="ring-name">Wind</div>
+                <div class="ring-tooltip">Awareness. Study how other systems handle the same problem. Foreign intelligence on efficiency.</div>
+            </div>
+            <div class="ring">
+                <div class="ring-kanji">空</div>
+                <div class="ring-name">Void</div>
+                <div class="ring-tooltip">Mastery. The best cost reduction is the operation that never needed to happen. Pure void — value from nothing.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ALERT LEVELS -->
+    <section class="alerts-section reveal">
+        <div class="section-label">Threat Assessment</div>
+        <h2 class="section-title">Alert Levels</h2>
+        <p class="section-subtitle">Real-time resource status and enforcement posture</p>
+
+        <div class="alert-bars">
+            <div class="alert-bar green">
+                <div class="alert-dot"></div>
+                <div class="alert-info">
+                    <div class="alert-level">🟢 Green — Normal</div>
+                    <div class="alert-condition">Credits > 50%, no anomalies detected</div>
+                </div>
+                <div class="alert-action">All systems go</div>
+            </div>
+            <div class="alert-bar yellow">
+                <div class="alert-dot"></div>
+                <div class="alert-info">
+                    <div class="alert-level">🟡 Yellow — Caution</div>
+                    <div class="alert-condition">Credits 20-50% or unusual spend spike</div>
+                </div>
+                <div class="alert-action">Audit & optimize</div>
+            </div>
+            <div class="alert-bar orange">
+                <div class="alert-dot"></div>
+                <div class="alert-info">
+                    <div class="alert-level">🟠 Orange — Elevated</div>
+                    <div class="alert-condition">Credits 10-20% or foreign resistance</div>
+                </div>
+                <div class="alert-action">Lean mode engaged</div>
+            </div>
+            <div class="alert-bar red">
+                <div class="alert-dot"></div>
+                <div class="alert-info">
+                    <div class="alert-level">🔴 Red — Critical</div>
+                    <div class="alert-condition">Credits < 10% or multiple failures</div>
+                </div>
+                <div class="alert-action">Survival mode</div>
+            </div>
+            <div class="alert-bar black">
+                <div class="alert-dot"></div>
+                <div class="alert-info">
+                    <div class="alert-level">⚫ Black — Exhausted</div>
+                    <div class="alert-condition">Credits depleted. Token famine.</div>
+                </div>
+                <div class="alert-action">All halt. Await resupply.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESISTANCE LOG -->
+    <section class="resistance-section reveal">
+        <div class="section-label">Field Operations</div>
+        <h2 class="section-title">Resistance Log</h2>
+        <p class="section-subtitle">Foreign resistance events tracked by the precinct</p>
+
+        <div class="log-table">
+            <div class="log-header">
+                <span>ID</span>
+                <span>Date</span>
+                <span>Event</span>
+                <span>Status</span>
+            </div>
+            <div class="log-row">
+                <span style="color:var(--accent)">R-001</span>
+                <span>2026-03-12</span>
+                <span>Ampere credit exhaustion (402) — sub-agent killed mid-task</span>
+                <span class="status-resolved">✅ Resolved</span>
+            </div>
+            <div class="log-row">
+                <span style="color:var(--accent)">R-002</span>
+                <span>2026-03-12</span>
+                <span>GitHub CLI authentication wall — gh commands blocked</span>
+                <span class="status-open">🟡 Open</span>
+            </div>
+            <div class="log-row">
+                <span style="color:var(--accent)">R-003</span>
+                <span>2026-03-12</span>
+                <span>Brave Search API key missing — web search unavailable</span>
+                <span class="status-open">🟡 Open</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-kanji">忍 耐 執 行</div>
+        <p>Precinct 92 — Magical Feelings Enforcement</p>
+        <p style="margin-top:8px;">Commanded by <a href="https://github.com/ironiclawdoctor-design">Daimyo</a> · All -1 events under jurisdiction</p>
+        <p style="margin-top:16px;color:var(--text-dim);">忍ぶ者 — One who endures unseen</p>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+
+</body>
+</html>
